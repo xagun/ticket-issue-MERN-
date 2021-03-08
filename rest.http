@@ -1,0 +1,22 @@
+### User signUp endpoint
+POST http://localhost:3000/v1/user
+Content-Type: application/json
+
+{
+    "name":"Sagun Shrestha",
+"email":"admin@gmail.com",
+"password":"admin",
+"phone":"12312312",
+"address":"bkt",
+"company":"asdas"
+}
+
+
+### User SignIn endpoint
+POST http://localhost:3000/v1/user/login
+Content-Type: application/json
+
+{
+"email":"admin@gmail.com",
+"password":"admin"
+}
