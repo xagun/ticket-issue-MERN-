@@ -20,3 +20,15 @@ Content-Type: application/json
 "email":"admin@gmail.com",
 "password":"admin"
 }
+
+### User Profile endpoint
+GET http://localhost:3000/v1/user
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTYxNTE5MjY1NiwiZXhwIjoxNjE1MTkzNTU2fQ.IqbXjiAr8NTSXzpXJByZJy54219apZn11vovwtkYziY
+
+
+
+### Token routers
+
+
+### Get refreshed token
+GET http://localhost:3000/v1/tokens

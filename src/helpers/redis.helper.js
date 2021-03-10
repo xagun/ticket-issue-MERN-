@@ -30,7 +30,7 @@ const getJWT = (key) => {
   
     return new Promise((resolve, reject) => {
         try {
-            client.get('key', (err, res) => {
+            client.get(key, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -48,7 +48,17 @@ const getJWT = (key) => {
 
 }
 
+const deleteJWT = key => {
+    try {
+        client.del(key);
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 module.exports = {
     setJWT,
-    getJWT
+    getJWT,
+    deleteJWT
 }

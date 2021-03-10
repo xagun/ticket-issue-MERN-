@@ -4,9 +4,9 @@ const router = express.Router();
 
 const { hashPassword, comparePassword } = require('../helpers/bcrypt.helper');
 const { createAccessJWT, createRefreshJWT } = require('../helpers/jwt.helper');
-const { insertUser, getUserByEmail } = require('../model/user/User.model');
+const { insertUser, getUserByEmail, getUserById } = require('../model/user/User.model');
 
-const { json } = require('body-parser');
+const {userAuthorization} = require('../middlewares/authorization.middleware');
 
 
 
@@ -16,6 +16,15 @@ router.all('/', (req, res, next) => {
     next();
 })
 
+
+// Get user profile route
+router.get('/', userAuthorization, async(req, res) => {
+ const _id = req.userId
+
+ const userProfile = await getUserById(_id)
+
+    res.json({ user: userProfile });
+})
 
 
 // Create new User routes
@@ -93,12 +102,12 @@ router.post('/login', async (req, res) => {
 
 
     const result = await comparePassword(password, hashedPasswordDB)
-  
+
     console.log(result);
 
     if (result === true) {
         const accessJWT = await createAccessJWT(user.email, `${user._id}`);
-        
+
         const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
         res.json({
             message: "Login successful",
@@ -115,6 +124,7 @@ router.post('/login', async (req, res) => {
 
 
 })
+
 
 
 module.exports = router;

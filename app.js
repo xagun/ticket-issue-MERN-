@@ -56,10 +56,12 @@ app.use(bodyParser.json());
 // load routers
 const userRouter = require('./src/routers/user.router');
 const ticketRouter = require('./src/routers/ticket.router');
+const tokensRouter = require('./src/routers/tokens.router');
+
 // use Routers
 app.use('/v1/user', userRouter);
 app.use('/v1/ticket', ticketRouter);
-
+app.use('/v1/tokens', tokensRouter);
 
 // Error handler
 const handleError = require('./src/utils/errorHandler');
@@ -77,12 +79,13 @@ handleError(error, res);
 })
 
 
-
 // PORT listening
 
 app.listen(port, () => {
     console.log(`API is started on http://localhost:${port}`)
 });
+
+
 
 
 
