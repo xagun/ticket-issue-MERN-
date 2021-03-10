@@ -4,11 +4,11 @@ const router = express.Router();
 
 const { hashPassword, comparePassword } = require('../helpers/bcrypt.helper');
 const { createAccessJWT, createRefreshJWT } = require('../helpers/jwt.helper');
-const { insertUser, getUserByEmail, getUserById } = require('../model/user/User.model');
+const { insertUser, getUserByEmail, getUserById, storeUserRefreshJWT } = require('../model/user/User.model');
 
-const {userAuthorization} = require('../middlewares/authorization.middleware');
+const { userAuthorization } = require('../middlewares/authorization.middleware');
 
-
+const { deleteJWT } = require('../helpers/redis.helper')
 
 
 router.all('/', (req, res, next) => {
@@ -18,10 +18,10 @@ router.all('/', (req, res, next) => {
 
 
 // Get user profile route
-router.get('/', userAuthorization, async(req, res) => {
- const _id = req.userId
+router.get('/', userAuthorization, async (req, res) => {
+    const _id = req.userId
 
- const userProfile = await getUserById(_id)
+    const userProfile = await getUserById(_id)
 
     res.json({ user: userProfile });
 })
@@ -125,6 +125,30 @@ router.post('/login', async (req, res) => {
 
 })
 
+// User Logout router
+router.delete('/logout', userAuthorization, async (req, res) => {
+
+
+    const { authorization } = req.headers
+    const _id = req.userId
+
+    // const userProfile = await getUserById(_id)
+
+    deleteJWT(authorization);
+
+
+    const result = await storeUserRefreshJWT(_id, '');
+  
+    if (result._id) {
+        return res.json({
+            status: 200,
+            message: "Logged out successfully"
+        })
+
+    }
+    res.json({ status: 404,
+    message: "Forbidden request of logout" });
+})
 
 
 module.exports = router;

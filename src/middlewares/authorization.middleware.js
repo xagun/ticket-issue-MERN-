@@ -8,7 +8,7 @@ const userAuthorization = async (req, res, next) => {
     const decoded = await verifyAccessJWT(authorization)
 
     if(decoded.email){
-        console.log(decoded);
+   
         const userId = await getJWT(authorization)
         console.log(userId);
 

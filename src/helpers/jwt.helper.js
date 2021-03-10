@@ -11,7 +11,7 @@ const createAccessJWT = async (email, _id) => {
         const accessJWT = jwt.sign(
             { email },
             process.env.JWT_ACCESS_SECRET,
-            { expiresIn: '1m' });
+            { expiresIn: '15m' });
 
         await setJWT(accessJWT, _id);
 
